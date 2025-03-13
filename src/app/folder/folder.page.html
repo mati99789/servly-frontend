@@ -14,10 +14,12 @@
     </ion-toolbar>
   </ion-header>
 
-  <button class="logout-button"  (click)="logout()">Logout</button>
+  @if (isLoggedIn$ | async) {
+    <button class="logout-button" (click)="logout()">Logout</button>
+  }
 
-  <div *ngIf="user()">
-    <h1>Welcome {{ user()?.email   }}</h1>
+  <div *ngIf="currentUser$ | async as currentUser">
+    <h1>Welcome {{ currentUser?.email }}</h1>
   </div>
 
 </ion-content>
