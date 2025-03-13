@@ -13,14 +13,14 @@
     <ion-card-header>
       Login Form
     </ion-card-header>
-    <form>
+    <form #form="ngForm" (ngSubmit)="onSubmit(form)">
       <ion-list>
         <ion-item>
-          <ion-input label="Email" label-placement="floating" type="email" placeholder="Email" />
+          <ion-input label="Email" label-placement="floating" type="email" placeholder="Email" [clearInput]="true" name="email" ngModel email/>
         </ion-item>
 
         <ion-item>
-          <ion-input label="Password" label-placement="floating" type="password" placeholder="Password" />
+          <ion-input label="Password" label-placement="floating" type="password" placeholder="Password" [clearInput]="true" name="password" ngModel password/>
         </ion-item>
 
         <ion-button expand="full" type="submit">Login</ion-button>

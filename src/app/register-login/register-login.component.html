@@ -14,9 +14,9 @@
     </ion-card-header>
     <form #form="ngForm" (ngSubmit)="onSubmit(form)">
       <ion-list>
-        <ion-item>
+        <!-- <ion-item>
           <ion-input label="Full Name" label-placement="floating" type="text" placeholder="Enter your full name" [clearInput]="true" name="fullName" ngModel fullName/>
-        </ion-item>
+        </ion-item> -->
 
         <ion-item>
           <ion-input label="Email" label-placement="floating" type="email" placeholder="Enter your email" [clearInput]="true" name="email" ngModel email/>
@@ -26,9 +26,9 @@
           <ion-input label="Password" label-placement="floating" type="password" placeholder="Create a password" [clearInput]="true" name="password" ngModel password/>
         </ion-item>
 
-        <ion-item>
+        <!-- <ion-item>
           <ion-input label="Confirm Password" label-placement="floating" type="password" placeholder="Confirm your password" [clearInput]="true" name="confirmPassword" ngModel confirmPassword/>
-        </ion-item>
+        </ion-item> -->
 
         <ion-button expand="full" type="submit">Register</ion-button>
       </ion-list>

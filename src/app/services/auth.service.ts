@@ -1,5 +1,5 @@
 import { inject, Injectable } from "@angular/core";
-import { BehaviorSubject, catchError, map, Observable, of, take, tap, throwError } from "rxjs";
+import { BehaviorSubject, catchError, map, Observable, of, switchMap, take, tap, throwError } from "rxjs";
 import { User } from "../dtos/user";
 import { HttpService } from "./http.service";
 import { AuthRequest } from "../dtos/auth-dto";
@@ -31,10 +31,13 @@ export class AuthService {
 
     // TODO: Ask backend for return user 
     login(credentials: AuthRequest): Observable<void> {
-        return this.httpService.post<void>('/api/auth/login', credentials).pipe(
+        return this.httpService.post<void>('auth/login', credentials).pipe(
             tap(() => {
                 this.isLoggedInSubject.next(true)
+
             }),
+            switchMap(() => this.fetchUser()),
+            map(() => void 0),
             catchError((error: ErrorResponse) => {
                 return throwError(() => error)
             })
@@ -42,7 +45,7 @@ export class AuthService {
     }
 
     logout(): Observable<void> {
-        return this.httpService.post<void>('api/auth/sec/logout', {}).pipe(
+        return this.httpService.post<void>('auth/sec/logout', {}).pipe(
             take(1),
             tap({
                 complete: () => {
@@ -64,12 +67,14 @@ export class AuthService {
 
     //TODO: Czy backednd rzeczywiscie loguje uzytkownika po resjstracji( ustawia toekn w ciasterchak czy zwraca dane sesji?)
     register(credentials: AuthRequest): Observable<void> {
-        return this.httpService.post<void>('/api/auth/register', credentials).pipe(
+        return this.httpService.post<void>('auth/register', credentials).pipe(
             tap({
                 next: () => {
                     this.isLoggedInSubject.next(true)
                 }
             }),
+            switchMap(() => this.fetchUser()),
+            map(() => void 0),
             catchError((error: ErrorResponse) => {
                 return throwError(() => error)
             })
@@ -78,6 +83,24 @@ export class AuthService {
 
 
     refreshToken(): Observable<void> {
-        return this.httpService.post<void>('api/auth/sec/refresh-token', {})
+        return this.httpService.post<void>('auth/sec/refresh-token', {})
+    }
+
+
+    fetchUser(): Observable<User> {
+        return this.httpService.get<User>('user/me').pipe(
+            tap((user) => {
+                this.currentUserSubject.next(user);
+                localStorage.setItem('currentUser', JSON.stringify(user));
+            }),
+            catchError((error: ErrorResponse) => {
+                this.isLoggedInSubject.next(false);
+                this.currentUserSubject.next(null);
+                localStorage.removeItem('currentUser');
+
+                return throwError(() => error)
+            }),
+            take(1)
+        )
     }
 }

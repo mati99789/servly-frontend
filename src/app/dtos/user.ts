@@ -1,9 +1,11 @@
+import { RefreshTokenRequest } from "./auth-dto";
+
 export interface User {
     id: number;
     email: string;
     password: string;
     roles: Role[];
-    refreshToken: RefreshToken;
+    refreshToken: RefreshTokenRequest;
 }
 
 export enum Role {
