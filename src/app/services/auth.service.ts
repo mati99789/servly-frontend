@@ -67,18 +67,23 @@ export class AuthService {
 
     //TODO: Czy backednd rzeczywiscie loguje uzytkownika po resjstracji( ustawia toekn w ciasterchak czy zwraca dane sesji?)
     register(credentials: AuthRequest): Observable<void> {
-        return this.httpService.post<void>('auth/register', credentials, undefined, false).pipe(
-            tap({
-                next: () => {
-                    this.isLoggedInSubject.next(true)
-                }
+        return this.httpService.post<void>('auth/register', credentials, undefined, true).pipe(
+            tap(() => {
+                console.log('register - przed switchMap');
             }),
-            switchMap(() => this.fetchUser()),
-            map(() => void 0),
+            switchMap(() => {
+                console.log('wchodzę do switchMap');
+                return this.fetchUser();
+            }),
+            map(() => {
+                console.log('po fetchUser');
+                return void 0;
+            }),
             catchError((error: ErrorResponse) => {
-                return throwError(() => error)
+                console.error('Błąd w register:', error);
+                return throwError(() => error);
             })
-        )
+        );
     }
 
 
@@ -90,6 +95,8 @@ export class AuthService {
     fetchUser(): Observable<User> {
         return this.httpService.get<User>('user/me').pipe(
             tap((user) => {
+                console.log('fetchUser', user);
+                
                 this.currentUserSubject.next(user);
                 localStorage.setItem('currentUser', JSON.stringify(user));
             }),
