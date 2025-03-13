@@ -12,18 +12,18 @@ export class HttpService {
     constructor(private http: HttpClient) {}
 
     get<T>(url:string, params?: HttpParams, headers?: HttpHeaders): Observable<T> {
-        return this.http.get<T>(`${this.API_URL}/${url}`, { params, headers });
+        return this.http.get<T>(`${this.API_URL}/${url}`, { params, headers, withCredentials: true });
     }
 
     post<T>(url:string, body: any, headers?: HttpHeaders): Observable<T> {
-        return this.http.post<T>(`${this.API_URL}/${url}`, body, { headers });
+        return this.http.post<T>(`${this.API_URL}/${url}`, body, { headers, withCredentials: true });
     }   
 
     put<T>(url:string, body: any, headers?: HttpHeaders): Observable<T> {
-        return this.http.put<T>(`${this.API_URL}/${url}`, body, { headers });
+        return this.http.put<T>(`${this.API_URL}/${url}`, body, { headers, withCredentials: true });
     }
 
     delete<T>(url:string, headers?: HttpHeaders): Observable<T> {
-        return this.http.delete<T>(`${this.API_URL}/${url}`, { headers });
+        return this.http.delete<T>(`${this.API_URL}/${url}`, { headers, withCredentials: true });
     }
 }

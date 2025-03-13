@@ -73,7 +73,7 @@ export class AuthService {
                     this.isLoggedInSubject.next(true)
                 }
             }),
-            switchMap(() => this.fetchUser()),
+            switchMap(() => this.login(credentials)),
             map(() => void 0),
             catchError((error: ErrorResponse) => {
                 return throwError(() => error)
