@@ -21,7 +21,7 @@ export class RegisterLoginComponent  {
  isLoggedIn$ = this.authService.isLoggedIn$;
 
   onSubmit(form: NgForm) {
-    this.authService.login(form.value).subscribe({
+    this.authService.register(form.value).subscribe({
       next: () => {
         this.router.navigate(['/']);
       },
