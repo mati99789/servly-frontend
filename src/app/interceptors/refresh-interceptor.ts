@@ -34,7 +34,7 @@ function handle401Error(req: HttpRequest<any>, next: HttpHandlerFn): Observable<
             }),
             catchError(refreshError => {
                 isRefreshing = false;
-                authService.signOut();
+                authService.logout();
                 return throwError(() => refreshError);
             }),
             finalize(() => {
