@@ -67,13 +67,13 @@ export class AuthService {
 
     //TODO: Czy backednd rzeczywiscie loguje uzytkownika po resjstracji( ustawia toekn w ciasterchak czy zwraca dane sesji?)
     register(credentials: AuthRequest): Observable<void> {
-        return this.httpService.post<void>('auth/register', credentials).pipe(
+        return this.httpService.post<void>('auth/register', credentials, undefined, false).pipe(
             tap({
                 next: () => {
                     this.isLoggedInSubject.next(true)
                 }
             }),
-            switchMap(() => this.login(credentials)),
+            switchMap(() => this.fetchUser()),
             map(() => void 0),
             catchError((error: ErrorResponse) => {
                 return throwError(() => error)

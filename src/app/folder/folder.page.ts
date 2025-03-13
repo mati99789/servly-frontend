@@ -23,6 +23,14 @@ export class FolderPage implements OnInit {
 
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id') as string;
+
+    this.currentUser$.subscribe((user) => {
+      console.log(user);
+    });
+
+    this.isLoggedIn$.subscribe((isLoggedIn) => {
+      console.log(isLoggedIn);
+    });
   }
 
   logout() {

@@ -15,8 +15,8 @@ export class HttpService {
         return this.http.get<T>(`${this.API_URL}/${url}`, { params, headers, withCredentials: true });
     }
 
-    post<T>(url:string, body: any, headers?: HttpHeaders): Observable<T> {
-        return this.http.post<T>(`${this.API_URL}/${url}`, body, { headers, withCredentials: true });
+    post<T>(url:string, body: any, headers?: HttpHeaders, withCredentials: boolean = true): Observable<T> {
+        return this.http.post<T>(`${this.API_URL}/${url}`, body, { headers, withCredentials });
     }   
 
     put<T>(url:string, body: any, headers?: HttpHeaders): Observable<T> {
