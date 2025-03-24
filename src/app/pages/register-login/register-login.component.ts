@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
-import { IonCard, IonCardHeader, IonInput, IonButton, IonList, IonItem, IonContent, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle } from '@ionic/angular/standalone';  
+import { IonCard, IonCardHeader, IonInput, IonButton, IonList, IonItem, IonContent, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle } from '@ionic/angular/standalone';
   import { FormsModule, NgForm } from '@angular/forms';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
 // TODO: Add form validation
@@ -30,4 +30,4 @@ export class RegisterLoginComponent  {
       }
     })
   }
-} 
+}

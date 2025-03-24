@@ -1,9 +1,9 @@
-import { inject, Injectable } from "@angular/core";
-import { BehaviorSubject, catchError, map, Observable, of, switchMap, take, tap, throwError } from "rxjs";
-import { User } from "../dtos/user";
-import { HttpService } from "./http.service";
-import { AuthRequest } from "../dtos/auth-dto";
-import { ErrorResponse } from "../dtos/error-response";
+import {Injectable} from "@angular/core";
+import {BehaviorSubject, catchError, map, Observable, switchMap, take, tap, throwError} from "rxjs";
+import {Role, User} from "../dtos/user";
+import {HttpService} from "./http.service";
+import {AuthRequest} from "../dtos/auth-dto";
+import {ErrorResponse} from "../dtos/error-response";
 
 @Injectable({
     providedIn: 'root'
@@ -14,9 +14,14 @@ export class AuthService {
 
     public currentUser$ = this.currentUserSubject.asObservable();
     public isLoggedIn$ = this.isLoggedInSubject.asObservable();
+    public isAdmin$ = this.currentUserSubject.asObservable().pipe(
+      map(user=> !!user && user.roles.includes(Role.ADMIN)),
+    )
 
-    private httpService = inject(HttpService);
 
+    constructor(private httpService: HttpService) {
+        this.checkInitialAuthState();
+    }
 
     private checkInitialAuthState() {
         const storedUser = localStorage.getItem('currentUser');
@@ -29,7 +34,7 @@ export class AuthService {
     }
 
 
-    // TODO: Ask backend for return user 
+    // TODO: Ask backend for return user
     login(credentials: AuthRequest): Observable<void> {
         return this.httpService.post<void>('auth/login', credentials).pipe(
             tap(() => {
@@ -96,8 +101,9 @@ export class AuthService {
         return this.httpService.get<User>('user/me').pipe(
             tap((user) => {
                 console.log('fetchUser', user);
-                
+
                 this.currentUserSubject.next(user);
+                this.isLoggedInSubject.next(true);
                 localStorage.setItem('currentUser', JSON.stringify(user));
             }),
             catchError((error: ErrorResponse) => {

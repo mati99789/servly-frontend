@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { IonCard, IonCardHeader, IonInput, IonButton, IonList, IonItem, IonContent, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle } from '@ionic/angular/standalone';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-login-form',
@@ -25,6 +25,6 @@ export class LoginFormComponent {
       error: (error) => {
         console.log(error);
       }
-    })  
+    })
   }
 }
