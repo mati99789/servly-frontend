@@ -28,7 +28,20 @@ export const routes: Routes = [
       requiresAuth: true,
       showInMenu: true,
       adminOnly: true
-    }
+    },
+    children: [
+      {
+        path: 'users',
+        loadComponent: () => import('./pages/admin/users/users.component').then((m) => m.UsersComponent),
+        canActivate: [authGuard],
+        data: {
+          title: 'Users',
+          icon: 'person',
+          requiresAuth: true,
+          showInMenu: true
+        }
+      }
+    ]
   },
   {
     path: 'login',

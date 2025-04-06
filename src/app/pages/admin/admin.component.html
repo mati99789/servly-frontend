@@ -1,3 +1,6 @@
-<p>
-  admin works!
-</p>
+<ng-container *ngIf="isMobile$ | async; else desktopLayout">
+  <app-admin-mobile-layout></app-admin-mobile-layout>
+</ng-container>
+<ng-template #desktopLayout>
+  <app-admin-desktop-layout></app-admin-desktop-layout>
+</ng-template>
