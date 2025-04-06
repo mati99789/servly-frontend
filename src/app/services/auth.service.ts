@@ -34,7 +34,6 @@ export class AuthService {
     }
 
 
-    // TODO: Ask backend for return user
     login(credentials: AuthRequest): Observable<void> {
         return this.httpService.post<void>('auth/login', credentials).pipe(
             tap(() => {

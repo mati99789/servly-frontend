@@ -9,19 +9,19 @@ const refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null)
 export const isLoggedIn$ = refreshTokenSubject.asObservable();
 
 export const refreshTokenInterceptor: HttpInterceptorFn = (req, next: HttpHandlerFn) => {
+    const authService = inject(AuthService);
 
     return next(req).pipe(
         catchError((error) => {
             if (error instanceof HttpErrorResponse && error.status === 401) {
-                return handle401Error(req, next);
+                return handle401Error(req, next, authService);
             }
             return throwError(() => error);
         })
     );
 };
 
-function handle401Error(req: HttpRequest<any>, next: HttpHandlerFn): Observable<any> {
-    const authService = inject(AuthService);
+function handle401Error(req: HttpRequest<any>, next: HttpHandlerFn, authService: AuthService): Observable<any> {
     if (!isRefreshing) {
         isRefreshing = true;
         refreshTokenSubject.next(null)
