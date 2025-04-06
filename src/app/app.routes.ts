@@ -21,7 +21,7 @@ export const routes: Routes = [
   {
     path: 'admin',
     loadComponent: () => import('./pages/admin/admin.component').then((m) => m.AdminComponent),
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
     data: {
       title: 'Admin',
       icon: 'shield',
