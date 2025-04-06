@@ -1,6 +1,10 @@
-<mat-tab-group>
-  <mat-tab label="Users" [routerLink]="'users'"></mat-tab>
-  <mat-tab label="Settings" [routerLink]="'settings'"></mat-tab>
-</mat-tab-group>
+<div class="admin-desktop-container">
+  <mat-tab-group (selectedTabChange)="onTabChange($event)">
+    <mat-tab label="Users"></mat-tab>
+    <mat-tab label="Settings"></mat-tab>
+  </mat-tab-group>
 
-<router-outlet></router-outlet>
+  <div class="content-container">
+    <ng-content></ng-content>
+  </div>
+</div>

@@ -20,7 +20,7 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
-    loadComponent: () => import('./pages/admin/admin.component').then((m) => m.AdminComponent),
+    loadChildren: () => import('./pages/admin/admin.routes').then(m => m.adminRoutes),
     // canActivate: [authGuard],
     data: {
       title: 'Admin',
@@ -28,20 +28,7 @@ export const routes: Routes = [
       requiresAuth: true,
       showInMenu: true,
       adminOnly: true
-    },
-    children: [
-      {
-        path: 'users',
-        loadComponent: () => import('./pages/admin/users/users.component').then((m) => m.UsersComponent),
-        canActivate: [authGuard],
-        data: {
-          title: 'Users',
-          icon: 'person',
-          requiresAuth: true,
-          showInMenu: true
-        }
-      }
-    ]
+    }
   },
   {
     path: 'login',

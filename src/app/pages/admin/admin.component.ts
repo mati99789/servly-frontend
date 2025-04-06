@@ -1,11 +1,13 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ResponsiveService } from 'src/app/services/responsive.servivce.';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { AdminDesktopLayoutComponent } from './layout/admin-desktop-layout.component';
 import { AdminMobileLayoutComponent } from './layout/admin-mobile-layout.component';
+
 @Component({
   selector: 'app-admin',
+  standalone: true,
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss'],
   imports: [
@@ -13,13 +15,11 @@ import { AdminMobileLayoutComponent } from './layout/admin-mobile-layout.compone
     RouterModule,
     AdminDesktopLayoutComponent,
     NgIf,
-    AdminMobileLayoutComponent
+    AdminMobileLayoutComponent,
+    RouterOutlet
   ]
 })
-export class AdminComponent{
-
+export class AdminComponent {
   responsiveService = inject(ResponsiveService);
   isMobile$ = this.responsiveService.isHandset$;
-
-
 }
