@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ResponsiveService } from 'src/app/services/responsive.servivce.';
+import { ResponsiveService } from 'src/app/services/responsive.service';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { AdminDesktopLayoutComponent } from './layout/admin-desktop-layout.component';
 import { AdminMobileLayoutComponent } from './layout/admin-mobile-layout.component';
