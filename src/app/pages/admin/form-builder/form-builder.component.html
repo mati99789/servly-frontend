@@ -1,0 +1,116 @@
+<!-- form-builder.component.html -->
+<ion-content class="form-builder">
+  <!-- Form Metadata Section -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Form Details</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="formMetadataForm">
+        <ion-item>
+          <ion-label position="floating">Form Title</ion-label>
+          <ion-input formControlName="title" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Description (optional)</ion-label>
+          <ion-textarea formControlName="description"></ion-textarea>
+        </ion-item>
+        <ion-button expand="block" (click)="createNewForm()" >
+          Create Form
+        </ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+
+  <!-- Add Fields Section (only visible after form creation) -->
+  <ion-card *ngIf="currentFormId">
+    <ion-card-content>
+      <form [formGroup]="fieldForm">
+        <!-- Field Type -->
+        <ion-item>
+          <ion-label>Field Type</ion-label>
+          <ion-select formControlName="type">
+            <ion-select-option *ngFor="let type of fieldTypes" [value]="type">
+              {{ type }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <!-- Basic Field Properties -->
+        <ion-item>
+          <ion-label position="floating">Label</ion-label>
+          <ion-input formControlName="label" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Name (for form data)</ion-label>
+          <ion-input formControlName="name" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Placeholder (optional)</ion-label>
+          <ion-input formControlName="placeholder" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Required</ion-label>
+          <ion-toggle formControlName="required"></ion-toggle>
+        </ion-item>
+
+        <!-- Options for Select, Checkbox, Radio -->
+        <ion-item *ngIf="['select', 'checkbox', 'radio'].includes(fieldForm.get('type')?.value)">
+          <ion-label position="floating">Options (format: value1:Label 1, value2:Label 2)</ion-label>
+          <ion-textarea formControlName="options"></ion-textarea>
+        </ion-item>
+
+
+
+        <ion-item *ngIf="['text', 'email', 'textarea'].includes(fieldForm.get('type')?.value)">
+          <ion-label position="floating">Min Length</ion-label>
+          <ion-input formControlName="minLength" type="number"></ion-input>
+        </ion-item>
+
+        <ion-item *ngIf="['text', 'email', 'textarea'].includes(fieldForm.get('type')?.value)">
+          <ion-label position="floating">Max Length</ion-label>
+          <ion-input formControlName="maxLength" type="number"></ion-input>
+        </ion-item>
+
+
+        <ion-button expand="block" (click)="addField()" [disabled]="fieldForm.invalid" >
+          Add Field
+        </ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Current Form Preview -->
+  <ion-card *ngIf="currentForm && currentForm.fields.length > 0">
+    <ion-card-header>
+      <ion-card-title>Current Form Fields</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let field of currentForm.fields">
+          <ion-label>
+            <h2>{{ field.label }}</h2>
+            <p>Type: {{ field.type }}</p>
+            <p *ngIf="field.required">Required</p>
+          </ion-label>
+          <ion-button slot="end" fill="clear" color="danger" >
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-list>
+
+      <div class="button-group">
+        <ion-button >
+          Preview Form
+        </ion-button>
+        <ion-button color="success" >
+          Save Form
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

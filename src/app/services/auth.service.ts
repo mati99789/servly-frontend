@@ -36,11 +36,10 @@ export class AuthService {
 
     login(credentials: AuthRequest): Observable<void> {
         return this.httpService.post<void>('auth/login', credentials).pipe(
-            tap(() => {
-                this.isLoggedInSubject.next(true)
-
-            }),
             switchMap(() => this.fetchUser()),
+            tap({
+              next: () => this.isLoggedInSubject.next(true)
+            }),
             map(() => void 0),
             catchError((error: ErrorResponse) => {
                 return throwError(() => error)
@@ -50,7 +49,6 @@ export class AuthService {
 
     logout(): Observable<void> {
         return this.httpService.post<void>('auth/sec/logout', {}).pipe(
-            take(1),
             tap({
                 complete: () => {
                     this.isLoggedInSubject.next(false);

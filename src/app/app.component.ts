@@ -50,7 +50,7 @@ export class AppComponent {
           if (!data.requiresAuth && isLoggedIn) return false;
 
           // Filter admin-only routes
-          if (data.adminOnly && !isAdmin) return false;
+          // if (data.adminOnly && !isAdmin) return false;
 
           return true;
         })
@@ -98,13 +98,24 @@ export class AppComponent {
   handleFunction(functionName: string): void {
     switch (functionName) {
       case 'logout':
+        console.log('logout');
+        
         this.logout();
         break;
     }
   }
 
   logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+    this.authService.logout().subscribe({
+      next: () => {
+        console.log('Logout successful');
+        this.router.navigate(['/login']);
+      },
+      error: (error) => {
+        console.error('Logout error:', error);
+        // Still navigate to login even if there's an error
+        this.router.navigate(['/login']);
+      }
+    });
   }
 }

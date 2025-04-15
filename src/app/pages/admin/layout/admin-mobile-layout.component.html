@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Admin</ion-title>
+  </ion-toolbar>
+  <ion-segment [(ngModel)]="segment" (ionChange)="onChange($event)">
+    <ion-segment-button value="dynamic-form">Form builder</ion-segment-button>
+  </ion-segment>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ng-content></ng-content>
+</ion-content>

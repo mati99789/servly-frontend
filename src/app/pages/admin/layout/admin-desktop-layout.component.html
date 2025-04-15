@@ -1,0 +1,9 @@
+<div class="admin-desktop-container">
+  <mat-tab-group (selectedTabChange)="onTabChange($event)">
+    <mat-tab label="Form Builder"></mat-tab>
+  </mat-tab-group>
+
+  <div class="content-container">
+    <ng-content></ng-content>
+  </div>
+</div>
